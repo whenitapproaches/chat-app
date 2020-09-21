@@ -1,0 +1,17 @@
+@import '../../../node_modules/bulma/bulma';
+
+
+.navbar-item {
+  img {
+    max-height: none;
+  }
+}
+
+.navbar-item {
+  padding: 0;
+}
+
+.button {
+  box-shadow: none !important;
+  outline: none;
+}

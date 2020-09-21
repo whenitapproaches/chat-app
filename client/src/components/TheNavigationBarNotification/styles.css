@@ -1,0 +1,47 @@
+.notification-wrapper {
+  position: relative;
+}
+
+.notification-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  padding: 0;
+  margin-top: 0.5rem;
+  padding: 0.5rem 0;
+}
+
+.notification-dropdown-toggler {
+  color: var(--text-normal-color);
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1.25rem;
+  background-color: var(--background-secondary-color);
+  color: var(--secondary-color);
+  border-radius: 0.25rem;
+}
+
+.notification-dropdown-toggler:hover {
+}
+
+.notification-dropdown-toggler > div {
+  position: relative;
+}
+
+.has-new-notification {
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background-color: var(--secondary-color);
+  position: absolute;
+  top: 0;
+  right: -5px;
+  display: none;
+  opacity: 0;
+  transition: var(--transition-duration) ease;
+}
+
+.has-new-notification.is-active {
+  display: flex;
+  opacity: 1;
+}

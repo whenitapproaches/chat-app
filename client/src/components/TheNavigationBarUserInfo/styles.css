@@ -1,0 +1,25 @@
+.user-dropdown-toggler {
+	display: flex;
+	align-items: center;
+	color: var(--text-normal-color);
+}
+
+.user-dropdown-toggler:hover {
+	color: var(--secondary-color);
+}
+
+.user-info {
+	display: flex;
+	position: relative;
+}
+
+.user-dropdown {
+	position: absolute;
+	right: 0;
+	top: 100%;
+	margin-top: 0.5rem;
+	padding: 0.5rem 0;
+}
+
+
+

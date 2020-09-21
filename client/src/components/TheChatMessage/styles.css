@@ -1,0 +1,20 @@
+.chat-message {
+  display: flex;
+}
+
+.chat-message .content {
+  padding: 1rem;
+  background-color: var(--gray-color);
+  border-radius: 0.5rem;
+  max-width: 50%;
+  color: var(--text-normal-color);
+}
+
+.chat-message.owner {
+  justify-content: flex-end;
+}
+
+.chat-message.owner .content {
+  background-color: var(--primary-color);
+  color: var(--white-color);
+}

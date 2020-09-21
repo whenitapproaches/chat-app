@@ -1,0 +1,36 @@
+:root {
+  --primary-color: #623CEA;
+  --primary-hover-color: #7A59ED;
+  --secondary-color: #F24333;
+  --background-secondary-color: #FEEDEC;
+  --white-color: #FAFFFD;
+  --gray-color: #D7D9D7;
+  --text-strong-color: #161925;
+  --text-normal-color: #28262C;
+  --text-weak-color: #696663;
+  --transition-duration: .3s;
+  --hovered-background-color: #F5F4F6;
+  --green-color: #85CB33;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 8px;
+  margin-left: 0.5rem;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #D6D6D6;
+  border-radius: 999px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #ADADAD;
+}

@@ -1,0 +1,13 @@
+.chat-box {
+  padding-left: 5rem;
+}
+
+.partner-username {
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: var(--text-strong-color);
+}
+
+.partner-status {
+  color: var(--green-color);
+}

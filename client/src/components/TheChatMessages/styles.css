@@ -1,0 +1,18 @@
+.chat-messages {
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column-reverse;
+  padding: 1rem 1rem;
+}
+
+.chat-messages .chat-message {
+  margin-bottom: 1.25rem;
+}
+
+.chat-messages .chat-message:first-child {
+  margin-bottom: 0;
+}
+
+.chat-messages .chat-message:last-child {
+  margin-top: 0;
+}

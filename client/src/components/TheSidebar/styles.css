@@ -1,0 +1,55 @@
+.menu-list li a {
+	display: inline-flex;
+	align-items: center;
+	color: var(--gray-color);
+	min-width: 100%;
+	position: relative;
+}
+.menu-list li a p {
+	margin-left: 0.75rem;
+	opacity: 0;
+	transition: var(--transition-duration) ease;
+}
+
+.menu-list li a.is-active {
+	background-color: var(--primary-hover-color);
+	color: var(--white-color);
+}
+
+.menu-list li a.is-active::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 3px;
+	height: 100%;
+	background-color: var(--white-color);
+}
+
+.sidebar:hover {
+	width: 15rem;
+}
+
+.sidebar:hover .menu-list li a p {
+	opacity: 1;
+}
+
+.sidebar .menu-list li a:hover {
+	background-color: var(--primary-hover-color);
+}
+
+.sidebar {
+	width: 3.5rem;
+	background-color: var(--primary-color);
+	transition: var(--transition-duration) ease;
+	overflow: hidden;
+	position: fixed;
+	top: 0;
+	left: 0;
+  height: 100%;
+  z-index: 10000;
+}
+.sidebar-wrapper {
+	width: 3.5rem;
+	height: 1px;
+}

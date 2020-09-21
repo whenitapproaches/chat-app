@@ -1,0 +1,33 @@
+.notification-sender {
+  display: flex;
+  align-items: center;
+  color: var(--text-weak-color);
+}
+
+.notification-item {
+  width: 20rem;
+  padding: 0.5rem 1rem;
+  display: flex;
+}
+
+.notification-item:hover {
+  background-color: var(--hovered-background-color);
+  cursor: pointer;
+}
+
+.notification-message {
+  color: var(--text-normal-color);
+}
+
+.notification-content {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+.notification-time {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 0.75rem;
+  color: var(--text-weak-color);
+}

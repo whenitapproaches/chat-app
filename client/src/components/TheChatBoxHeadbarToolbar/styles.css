@@ -1,0 +1,28 @@
+.toolbar {
+  display: flex;
+}
+
+.toolbar > div {
+  position: relative;
+}
+
+.dropdown {
+  position: absolute;
+  margin-top: 0.5rem;
+  top: 100%;
+  right: 0;
+  padding: 0.5rem 0;
+  width: 15rem;
+}
+
+.toolbar div > a {
+  color: var(--text-normal-color);
+}
+
+.toolbar .tool a {
+  color: var(--text-normal-color);
+}
+
+.toolbar .tool a:hover {
+  color: var(--secondary-color);
+}
