@@ -17,7 +17,12 @@
 <script>
 import TheSidebar from "@/components/TheSidebar/TheSidebar.vue"
 import TheNavigationBar from "@/components/TheNavigationBar/TheNavigationBar.vue"
-import { onMounted, provide, reactive, ref, readonly, computed } from "vue"
+import { onMounted, provide, reactive, ref, readonly } from "vue"
+
+import { useStore } from "@/store"
+
+import ApiService, { AuthService } from "@/services/api.service"
+
 export default {
 	components: {
 		TheSidebar,
@@ -31,11 +36,29 @@ export default {
 			mainHeight.value = navbar.value.clientHeight
 		})
 
-		const currentUser = reactive({
-			username: "hello"
-		})
+		const userStore = useStore("User")
 
-		provide("currentUser", readonly(currentUser))
+		userStore.refreshJWT()
+
+		ApiService.interceptors.request.use(async (config) => {
+			const { token: userToken } = userStore.currentUser
+
+			const shouldRefreshJWT = userStore.shouldRefreshJWT.value
+
+			if (shouldRefreshJWT && !userToken.value) {
+				const updateShouldRefreshJWT = userStore.updateShouldRefreshJWT
+				try {
+					updateShouldRefreshJWT(false)
+
+					let token = await userStore.refreshJWT()
+					config.headers["Authorization"] = `Bearer ${token}`
+				} catch (err) {
+					console.log(err)
+				}
+			}
+
+			return config
+		})
 
 		return {
 			navbar,

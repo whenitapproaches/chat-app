@@ -7,6 +7,6 @@ module.exports = {
   REFRESH_TOKEN_EXPIRATION_TIME:
     process.env.REFRESH_TOKEN_EXPIRATION_TIME || "60 minutes",
   JWT_SECRET_KEY: process.env.SECRET_KEY || "chat-app",
-  JWT_EXPIRATION_TIME: process.env.JWT_EXPIRATION_TIME || "10 minutes",
+  JWT_EXPIRATION_TIME: process.env.JWT_EXPIRATION_TIME || "1 minute",
   PASSWORD_SALT_ROUNDS: process.env.PASSWORD_SALT_ROUNDS || 10
 }

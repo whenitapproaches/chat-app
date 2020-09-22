@@ -1,6 +1,6 @@
 const passport = require("passport")
 
-const { generateRefreshToken, generateJWT } = require("../utils")
+const { generateRefreshToken, generateJWT, JWTExpirationTimeInMs } = require("../utils")
 
 module.exports = (req, res, next) => {
   passport.authenticate("local", async function (err, user, msg) {
@@ -26,6 +26,7 @@ module.exports = (req, res, next) => {
         success: true,
         username: user.username,
         token: jwt,
+        tokenExpiredIn: JWTExpirationTimeInMs()
       })
     }
 

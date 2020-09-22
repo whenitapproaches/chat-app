@@ -1,7 +1,9 @@
-const generateRefreshToken = require("./generateRefreshToken.util.js")
-const generateJWT = require("./generateJWT.util.js")
+const generateRefreshToken = require("./generateRefreshToken.util")
+const generateJWT = require("./generateJWT.util")
+const JWTExpirationTimeInMs = require("./JWTExpirationTimeInMs.utils")
 
 module.exports = {
   generateRefreshToken,
   generateJWT,
+  JWTExpirationTimeInMs
 }
