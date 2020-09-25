@@ -5,7 +5,10 @@
 .chat-message .content {
   padding: 1rem;
   background-color: var(--gray-color);
+  background: var(--gradient-gray-color);
   border-radius: 0.5rem;
+  background-size: 200%;
+  background-position: center center;
   max-width: 50%;
   color: var(--text-normal-color);
 }
@@ -16,5 +19,7 @@
 
 .chat-message.owner .content {
   background-color: var(--primary-color);
+  background: var(--gradient-primary-color);
+  background-size: 150%;
   color: var(--white-color);
 }

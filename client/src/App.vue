@@ -1,9 +1,9 @@
 <template>
 	<div class="columns is-gapless">
-		<div class="column is-narrow">
-			<TheSidebar :navbarHeight="mainHeight" />
+		<div v-if="isLoggedIn" class="column is-narrow">
+			<TheSidebar />
 		</div>
-		<div class="column">
+		<div v-show="isLoggedIn" class="column">
 			<div class="section" ref="navbar">
 				<TheNavigationBar />
 			</div>
@@ -11,15 +11,23 @@
 				<router-view />
 			</div>
 		</div>
+		<base-transition enterClass="fadeIn">
+			<div v-if="!isLoggedIn" class="column">
+				<TheLogin />
+			</div>
+		</base-transition>
 	</div>
 </template>
 
 <script>
 import TheSidebar from "@/components/TheSidebar/TheSidebar.vue"
 import TheNavigationBar from "@/components/TheNavigationBar/TheNavigationBar.vue"
+import TheLogin from "@/components/TheLogin/TheLogin.vue"
 import { onMounted, provide, reactive, ref, readonly } from "vue"
 
 import { useStore } from "@/store"
+
+import { useRouter } from "vue-router"
 
 import ApiService, { AuthService } from "@/services/api.service"
 
@@ -27,6 +35,7 @@ export default {
 	components: {
 		TheSidebar,
 		TheNavigationBar,
+		TheLogin,
 	},
 	setup() {
 		const navbar = ref(null)
@@ -36,33 +45,35 @@ export default {
 			mainHeight.value = navbar.value.clientHeight
 		})
 
+		const router = useRouter()
+
+		ApiService.interceptors.response.use(
+			function (response) {
+				return response
+			},
+			function (error) {
+				let responseStatus = error.response.status
+
+				if (responseStatus === 401) {
+					router.push({
+						name: "Home",
+					})
+				}
+
+				return Promise.reject(error)
+			}
+		)
+
 		const userStore = useStore("User")
 
 		userStore.refreshJWT()
 
-		ApiService.interceptors.request.use(async (config) => {
-			const { token: userToken } = userStore.currentUser
-
-			const shouldRefreshJWT = userStore.shouldRefreshJWT.value
-
-			if (shouldRefreshJWT && !userToken.value) {
-				const updateShouldRefreshJWT = userStore.updateShouldRefreshJWT
-				try {
-					updateShouldRefreshJWT(false)
-
-					let token = await userStore.refreshJWT()
-					config.headers["Authorization"] = `Bearer ${token}`
-				} catch (err) {
-					console.log(err)
-				}
-			}
-
-			return config
-		})
+		const isLoggedIn = userStore.isLoggedIn
 
 		return {
 			navbar,
 			mainHeight,
+			isLoggedIn,
 		}
 	},
 }

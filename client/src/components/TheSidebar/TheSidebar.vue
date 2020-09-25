@@ -3,7 +3,6 @@
 		<aside
 			class="menu sidebar"
 			:class="{'is-active': isSidebarActive}"
-			:style="{'padding-top': `${navbarHeight}px`}"
 		>
 			<ul class="menu-list">
 				<li v-for="route in routes" :key="route.name">
@@ -22,11 +21,6 @@ import { ref } from "vue"
 import { routes as sidebarRoutes } from "./data"
 export default {
 	name: "TheSidebar",
-	props: {
-		navbarHeight: {
-			type: Number,
-		},
-	},
 	setup() {
 		const routes = ref(sidebarRoutes)
 

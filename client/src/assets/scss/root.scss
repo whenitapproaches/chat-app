@@ -1,16 +1,24 @@
 :root {
-  --primary-color: #623CEA;
-  --primary-hover-color: #7A59ED;
-  --secondary-color: #F24333;
-  --background-secondary-color: #FEEDEC;
-  --white-color: #FAFFFD;
-  --gray-color: #D7D9D7;
+  --primary-color: #623cea;
+  --primary-hover-color: #7a59ed;
+  --secondary-color: #f24333;
+  --background-secondary-color: #feedec;
+  --white-color: #fafffd;
+  --gray-color: #d7d9d7;
   --text-strong-color: #161925;
-  --text-normal-color: #28262C;
+  --text-normal-color: #28262c;
   --text-weak-color: #696663;
-  --transition-duration: .3s;
-  --hovered-background-color: #F5F4F6;
-  --green-color: #85CB33;
+  --transition-duration: 0.3s;
+  --hovered-background-color: #f5f4f6;
+  --green-color: #85cb33;
+  --gradient-primary-color: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(98, 60, 234, 1) 0%,
+    rgba(242, 67, 51, 1) 100%
+  );
+  --gradient-primary-hover-color: rgba(255, 255, 255, 0.2);
+  --gradient-gray-color: linear-gradient(135deg, rgba(215,217,215,1) 0%, rgba(245,244,246,1) 100%);
 }
 
 /* width */
@@ -26,11 +34,11 @@
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #D6D6D6;
+  background: #d6d6d6;
   border-radius: 999px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #ADADAD;
+  background: #adadad;
 }

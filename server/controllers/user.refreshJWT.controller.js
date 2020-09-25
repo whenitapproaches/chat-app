@@ -5,7 +5,6 @@ const moment = require('moment')
 const JWTExpirationTimeInMs = require('../utils/JWTExpirationTimeInMs.utils')
 
 module.exports = async (req, res, next) => {
-  console.log(req.cookies)
   const refreshToken = req.cookies.refreshToken
 
   if(!refreshToken) return res.status(401).json({
@@ -32,7 +31,6 @@ module.exports = async (req, res, next) => {
     username: user.username,
     id: user._id,
   })
-
 
   return res.status(200).json({
     success: true,

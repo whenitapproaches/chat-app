@@ -5,7 +5,7 @@
 				<div class="partner">
 					<div class="columns is-vcentered">
 						<div class="column is-narrow">
-							<AppAvatar class="is-extra-large" />
+							<BaseAvatar class="is-extra-large" />
 						</div>
 						<div class="column">
 							<div class="partner-username">whenitapproaches</div>
