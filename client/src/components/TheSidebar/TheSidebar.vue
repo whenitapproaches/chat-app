@@ -1,14 +1,11 @@
 <template>
 	<div class="sidebar-wrapper">
-		<aside
-			class="menu sidebar"
-			:class="{'is-active': isSidebarActive}"
-		>
+		<aside class="menu sidebar">
 			<ul class="menu-list">
 				<li v-for="route in routes" :key="route.name">
-					<router-link active-class="is-active" :to="{name: route.name}">
+					<router-link active-class="is-active" :to="{ name: route.name }">
 						<base-icon class="is-medium" :icon="route.icon" />
-						<p>{{route.name}}</p>
+						<p>{{ route.name }}</p>
 					</router-link>
 				</li>
 			</ul>

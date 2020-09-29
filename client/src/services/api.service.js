@@ -14,7 +14,7 @@ export const AuthService = {
       withCredentials: true,
     })
   },
-  signup(info) {
+  signUp(info) {
     return ApiService.post("user/signup", info, {
       withCredentials: true,
     })
@@ -23,5 +23,27 @@ export const AuthService = {
     return ApiService.post("user/jwt", null, {
       withCredentials: true,
     })
+  },
+  logOut() {
+    return ApiService.post("user/logout", null, {
+      withCredentials: true,
+    })
+  },
+  checkUsernameAvailability(username) {
+    const CancelToken = axios.CancelToken
+    const source = CancelToken.source()
+
+    const request = () =>
+      ApiService.get("user/availability", {
+        params: {
+          username,
+        },
+        cancelToken: source.token,
+      })
+
+    return {
+      request,
+      source,
+    }
   },
 }

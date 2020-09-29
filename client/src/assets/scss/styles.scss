@@ -68,3 +68,16 @@ html {
   justify-content: center;
   align-items: center;
 }
+
+.button.is-primary {
+  background-color: var(--primary-color);
+  background: var(--gradient-primary-color);
+  background-position: center center;
+  background-size: 250%;
+  transition: .3s ease;
+  &:hover {
+    background-color: var(--primary-color);
+    background: var(--gradient-primary-color);
+    background-size: 150%;
+  }
+}

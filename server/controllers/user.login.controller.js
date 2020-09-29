@@ -13,6 +13,7 @@ module.exports = (req, res, next) => {
       })
 
       let refreshTokenPayload = generateRefreshToken()
+      if(req.body.remember) refreshTokenPayload.expiredAt = new Date(253402300000000)
       user.refreshToken.expiredAt = refreshTokenPayload.expiredAt
       user.refreshToken.token = refreshTokenPayload.token
       await user.save()

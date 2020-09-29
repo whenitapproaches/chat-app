@@ -1,5 +1,6 @@
-@import '../../../node_modules/bulma/bulma';
+$input-focus-border-color: var(--primary-color);
 
+@import '../../../node_modules/bulma/bulma';
 
 .navbar-item {
   img {

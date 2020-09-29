@@ -1,4 +1,4 @@
-import { computed, reactive, toRefs, ref } from "vue"
+import { computed, reactive, toRefs } from "vue"
 import ApiService, { AuthService } from "@/services/api.service"
 
 export default () => {
@@ -27,8 +27,8 @@ export default () => {
       setTimeout(refreshJWT, tokenExpiredIn)
       return token
     } catch (error) {
-      if(error.response.status === 401) {
-        currentUser.username = ''
+      if (error.response.status === 401) {
+        currentUser.username = ""
         currentUser.token = null
       }
       return false
@@ -50,8 +50,31 @@ export default () => {
       ApiService.defaults.headers.common["Authorization"] = `Bearer ${token}`
       setTimeout(refreshJWT, tokenExpiredIn)
     } catch (err) {
+      return err.response.data.error
+    }
+  }
+
+  const logOut = async () => {
+    try {
+      await AuthService.logOut()
+      currentUser.username = ""
+      currentUser.token = null
+    } catch (err) {
       console.log(err)
     }
+  }
+
+  const signUp = async (info) => {
+    try {
+      let response = await AuthService.signUp(info)
+      return response.data
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const checkUsernameAvailability = (username) => {
+    return AuthService.checkUsernameAvailability(username)
   }
 
   return {
@@ -59,5 +82,8 @@ export default () => {
     login,
     isLoggedIn,
     refreshJWT,
+    signUp,
+    logOut,
+    checkUsernameAvailability
   }
 }

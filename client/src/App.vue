@@ -1,29 +1,24 @@
 <template>
 	<div class="columns is-gapless">
-		<div v-if="isLoggedIn" class="column is-narrow">
+		<div class="column is-narrow">
 			<TheSidebar />
 		</div>
-		<div v-show="isLoggedIn" class="column">
+		<div class="column">
 			<div class="section" ref="navbar">
 				<TheNavigationBar />
 			</div>
-			<div class="section py-0" :style="{'height': `calc(100vh - ${mainHeight}px)`}">
+			<div class="section py-0" :style="{ height: mainHeight }">
 				<router-view />
 			</div>
 		</div>
-		<base-transition enterClass="fadeIn">
-			<div v-if="!isLoggedIn" class="column">
-				<TheLogin />
-			</div>
-		</base-transition>
 	</div>
 </template>
 
 <script>
 import TheSidebar from "@/components/TheSidebar/TheSidebar.vue"
 import TheNavigationBar from "@/components/TheNavigationBar/TheNavigationBar.vue"
-import TheLogin from "@/components/TheLogin/TheLogin.vue"
-import { onMounted, provide, reactive, ref, readonly } from "vue"
+import mainHeightCalculator from "./mainHeightCalculator"
+import { onMounted, provide, reactive, ref, readonly, watchEffect } from "vue"
 
 import { useStore } from "@/store"
 
@@ -35,14 +30,13 @@ export default {
 	components: {
 		TheSidebar,
 		TheNavigationBar,
-		TheLogin,
 	},
 	setup() {
 		const navbar = ref(null)
 		const mainHeight = ref(0)
 
 		onMounted(() => {
-			mainHeight.value = navbar.value.clientHeight
+			mainHeight.value = mainHeightCalculator(navbar)
 		})
 
 		const router = useRouter()
@@ -68,12 +62,9 @@ export default {
 
 		userStore.refreshJWT()
 
-		const isLoggedIn = userStore.isLoggedIn
-
 		return {
 			navbar,
 			mainHeight,
-			isLoggedIn,
 		}
 	},
 }

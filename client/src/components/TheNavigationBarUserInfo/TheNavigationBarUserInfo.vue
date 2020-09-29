@@ -10,7 +10,7 @@
 				<a href="#">Change profile picture</a>
 			</li>
 			<li>
-				<a href="#">Log out</a>
+				<a @click.prevent="logOut" href="#">Log out</a>
 			</li>
 		</ul>
 	</div>
@@ -32,10 +32,13 @@ export default {
 
 		const { username: currentUserUsername} = userStore.currentUser
 
+		const logOut = userStore.logOut
+
 		return {
 			isDropdownActive,
 			toggleDropdown,
 			currentUserUsername,
+			logOut
 		}
 	},
 }

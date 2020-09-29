@@ -16,7 +16,8 @@ passport.use(
           // No user found
           if (!user)
             return done(null, false, {
-              errors: {
+              error: {
+                path: "username",
                 message: "No user found",
               },
             })
@@ -24,7 +25,8 @@ passport.use(
           let isValidPassword = await user.verifyPassword(password)
           if (!isValidPassword)
             return done(null, false, {
-              errors: {
+              error: {
+                path: "password",
                 message: "Wrong password",
               },
             })

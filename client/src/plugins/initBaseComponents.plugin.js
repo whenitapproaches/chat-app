@@ -10,7 +10,7 @@ function loadComponent(app) {
   const requireComponent = require.context(
     "@/components",
     true,
-    /Base[A-Z]\w+\.(vue|js)$/
+    /Base[A-Z]\w+\.(vue|js)$/,
   )
   requireComponent.keys().forEach((fileName) => {
     // Load component config
