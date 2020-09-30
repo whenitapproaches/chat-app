@@ -8,6 +8,17 @@ const ApiService = axios.create({
 
 export default ApiService
 
+export const ProfileService = {
+  fetchFriends(page = 0) {
+    return ApiService.get("profile/friends", {
+      withCredentials: true,
+      params: {
+        page,
+      },
+    })
+  },
+}
+
 export const AuthService = {
   login(credentials) {
     return ApiService.post("user/login", credentials, {

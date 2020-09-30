@@ -20,7 +20,7 @@ const routes = [
   {
     path: "/settings",
     name: "Settings",
-    component: () => import("@/views/Chat.vue"),
+    component: () => import("@/views/Settings.vue"),
   },
   {
     path: "/help",
