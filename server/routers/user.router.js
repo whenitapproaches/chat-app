@@ -7,7 +7,7 @@ const {
   userLogoutController,
   userSignupController,
   userRefreshJWTController,
-  userCheckUsernameAvailability
+  userCheckUsernameAvailabilityController
 } = require("../controllers")
 
 const { authMiddleware } = require("../middlewares")
@@ -20,6 +20,6 @@ router.post(`${path}/jwt`, authMiddleware, userRefreshJWTController)
 
 router.post(`${path}/logout`, authMiddleware, userLogoutController)
 
-router.get(`${path}/availability`, userCheckUsernameAvailability)
+router.get(`${path}/availability`, userCheckUsernameAvailabilityController)
 
 module.exports = router

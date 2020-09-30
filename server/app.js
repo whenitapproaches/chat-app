@@ -31,9 +31,10 @@ app.use(cookieParser())
 
 app.use(morgan("dev"))
 
-const { userRouter } = require("./routers")
+const { userRouter, messageRouter } = require("./routers")
 
 app.use(userRouter)
+app.use(messageRouter)
 
 app.listen(configs.PORT, () =>
   console.log(chalk.green("Server is listening..."))
