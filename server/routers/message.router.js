@@ -6,6 +6,6 @@ const { messageFetchController } = require("../controllers")
 
 const { authMiddleware } = require("../middlewares")
 
-router.get(`${path}/fetch/:partnerId`, authMiddleware, messageFetchController)
+router.get(`${path}/:partnerId`, authMiddleware, messageFetchController)
 
 module.exports = router

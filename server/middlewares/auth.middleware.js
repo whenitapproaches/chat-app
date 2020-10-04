@@ -1,4 +1,5 @@
 const UserModel = require('../models/user.model')
+const ProfileModel = require('../models/profile.model')
 const moment = require('moment')
 
 module.exports = async (req, res, next) => {
@@ -25,6 +26,12 @@ module.exports = async (req, res, next) => {
   })
 
   req.user = user
+
+  let profile = await ProfileModel.findOne({
+    userId: user._id,
+  }).exec()
+
+  req.profile = profile
 
   next()
 }

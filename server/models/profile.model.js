@@ -15,10 +15,15 @@ const ProfileSchema = new Schema({
   dateOfBirth: {
     type: Date,
   },
-  listFriends: [
+  friends: [
     {
       userId: {
         type: String,
+        ref: "User",
+      },
+      isPending: {
+        type: Boolean,
+        default: true,
       },
     },
   ],

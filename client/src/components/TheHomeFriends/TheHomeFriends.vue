@@ -1,26 +1,32 @@
 <template>
-  <div class="your-friends">
-    
-  </div>
+	<div class="your-friends">
+		<ul class="friends columns">
+			<li class="column is-4" v-for="friend in friends" :key="friend.userId">
+				<div class="box">
+					{{ friend.userId }}
+				</div>
+			</li>
+		</ul>
+	</div>
 </template>
 
 <script>
-import {useStore } from '@/store';
+import { useStore } from "@/store"
 export default {
-  setup() {
-    const profileStore = useStore('Profile')
+	setup() {
+		const profileStore = useStore("Profile")
+		const profile = profileStore.profile
 
-    profileStore.fetchFriends()
+		profileStore.fetchFriends()
 
-    const friends = profileStore.friends
+		const { friends } = profile
 
-    return {
-      friends
-    }
-  }
+		return {
+			friends,
+		}
+	},
 }
 </script>
 
 <style scoped src="./styles.css">
-
 </style>

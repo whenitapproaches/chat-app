@@ -1,4 +1,5 @@
 const UserModel = require("../models/user.model")
+const ProfileModel = require("../models/profile.model")
 
 module.exports = async (req, res, next) => {
   const username = req.body.username
@@ -7,7 +8,7 @@ module.exports = async (req, res, next) => {
 
   try {
     let existedUser = await UserModel.findOne({
-      username
+      username,
     })
 
     if (existedUser)
@@ -16,9 +17,13 @@ module.exports = async (req, res, next) => {
         message: "This username has already been taken.",
       })
 
-    await UserModel.create({
+    let user = await UserModel.create({
       username,
       password,
+    })
+
+    await ProfileModel.create({
+      userId: user._id,
     })
 
     return res.status(200).json({

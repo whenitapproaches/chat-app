@@ -1,4 +1,3 @@
-const e = require("express")
 const UserModel = require("../models/user.model")
 
 module.exports = async (req, res, next) => {
