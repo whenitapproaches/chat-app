@@ -1,40 +1,63 @@
 <template>
-	<div class="chat-messages">
-		<TheChatMessage sender="owner" content="Well, bye!" />
+	<div ref="root" class="chat-messages">
 		<TheChatMessage
-			sender="partner"
-			content="Dignissimos aut minus accusantium sed ea est commodi dolore."
+			v-for="message in conversation.messages"
+			:key="message._id"
+			:sender="message.senderId === userId ? 'owner' : ''"
+			:content="message.content"
+			:media="message.media"
+			:createdAt="message.createdAt"
+			:isPending="message.isPending"
 		/>
-		<TheChatMessage
-			sender="partner"
-			content="Inventore dolore odit sint sint odio tenetur. Perspiciatis aut cum nobis et. Eum voluptatum aperiam est et aut aut dolor molestiae aut."
-		/>
-		<TheChatMessage sender="owner" content="recusandae modi nihil" />
-		<TheChatMessage
-			sender="partner"
-			content="Quas atque impedit. Aspernatur eveniet et eveniet sit eveniet ea. Corporis et illo. Est quo iste consequatur quaerat vero quisquam adipisci iusto. Eius reprehenderit velit numquam cupiditate vero molestiae culpa quia. Eum sint doloribus."
-		/>
-		<TheChatMessage sender="partner" content="Omnis expedita aliquid." />
-		<TheChatMessage
-			sender="owner"
-			content="Iusto mollitia voluptatem. Qui ut nihil. Aut eum dicta possimus."
-		/>
-		<TheChatMessage
-			sender="owner"
-			content="Et eos eaque at esse deleniti doloribus. Qui sit illum eum quia explicabo nisi magnam suscipit repudiandae. Illum aperiam rerum delectus."
-		/>
-		<TheChatMessage sender="partner" content="Porro optio eveniet ex." />
-		<TheChatMessageSeparator date="Today" />
+		<!-- <TheChatMessageSeparator date="Today" /> -->
+		<TheChatMessagesLoading ref="loadingElement" />
 	</div>
 </template>
 
 <script>
 import TheChatMessage from "@/components/TheChatMessage/TheChatMessage.vue"
-import TheChatMessageSeparator from "@/components/TheChatMessageSeparator/TheChatMessageSeparator.vue"
+// import TheChatMessageSeparator from "@/components/TheChatMessageSeparator/TheChatMessageSeparator.vue"
+import TheChatMessagesLoading from "@/components/TheChatMessagesLoading/TheChatMessagesLoading.vue"
+import { useStore } from "@/store"
+import useChatMessagesListener from "./useChatMessagesListener"
+import useChatMessageInfiniteLoader from "./useChatMessageInfiniteLoader"
+import { onMounted, ref, computed } from "vue"
 export default {
 	components: {
 		TheChatMessage,
-		TheChatMessageSeparator,
+		// TheChatMessageSeparator,
+		TheChatMessagesLoading,
+	},
+	setup() {
+		const store = useStore()
+
+		const conversations = computed(() => store.state.chat.conversations)
+
+		const userId = computed(() => store.getters["user/id"])
+
+		useChatMessagesListener()
+
+		const root = ref(null)
+		const loadingElement = ref(null)
+
+		onMounted(() => {
+			useChatMessageInfiniteLoader(root, loadingElement)
+		})
+
+		const currentPartnerUsername = computed(
+			() => store.getters["chat/currentPartnerUsername"]
+		)
+
+		const conversation = computed(
+			() => store.getters["chat/currentPartnerConversation"] || {}
+		)
+
+		return {
+			userId,
+			root,
+			loadingElement,
+			conversation,
+		}
 	},
 }
 </script>

@@ -1,8 +1,4 @@
-const { generateJWT } = require("../utils")
-
-const UserModel = require("../models/user.model")
-const moment = require('moment')
-const JWTExpirationTimeInMs = require('../utils/JWTExpirationTimeInMs.utils')
+const { generateJWT, JWTExpirationTimeInMs } = require("../utils")
 
 module.exports = async (req, res, next) => {
   const user = req.user
@@ -16,6 +12,7 @@ module.exports = async (req, res, next) => {
     success: true,
     username: user.username,
     token: jwt,
-    tokenExpiredIn: JWTExpirationTimeInMs()
+    tokenExpiredIn: JWTExpirationTimeInMs(),
+    _id: user._id,
   })
 }

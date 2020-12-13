@@ -11,6 +11,7 @@
 				<router-view />
 			</div>
 		</div>
+		<TheImageModal />
 	</div>
 </template>
 
@@ -18,18 +19,45 @@
 import TheSidebar from "@/components/TheSidebar/TheSidebar.vue"
 import TheNavigationBar from "@/components/TheNavigationBar/TheNavigationBar.vue"
 import mainHeightCalculator from "./mainHeightCalculator"
-import { onMounted, provide, reactive, ref, readonly, watchEffect } from "vue"
+import TheImageModal from "@/components/TheImageModal/TheImageModal"
+import { onMounted, ref } from "vue"
 
 import { useStore } from "@/store"
 
 import { useRouter } from "vue-router"
+const router = useRouter()
 
 import ApiService, { AuthService } from "@/services/api.service"
+
+ApiService.interceptors.response.use(
+	function (response) {
+		return response
+	},
+	function (error) {
+		let responseStatus = error.response.status
+
+		switch (responseStatus) {
+			case 401:
+				router.push({
+					name: "Home",
+				})
+				break
+			case 404:
+				router.push({
+					name: "NotFound",
+				})
+				break
+		}
+
+		return Promise.reject(error)
+	}
+)
 
 export default {
 	components: {
 		TheSidebar,
 		TheNavigationBar,
+		TheImageModal,
 	},
 	setup() {
 		const navbar = ref(null)
@@ -39,28 +67,9 @@ export default {
 			mainHeight.value = mainHeightCalculator(navbar)
 		})
 
-		const router = useRouter()
+		const store = useStore()
 
-		ApiService.interceptors.response.use(
-			function (response) {
-				return response
-			},
-			function (error) {
-				let responseStatus = error.response.status
-
-				if (responseStatus === 401) {
-					router.push({
-						name: "Home",
-					})
-				}
-
-				return Promise.reject(error)
-			}
-		)
-
-		const userStore = useStore("User")
-
-		userStore.refreshJWT()
+		store.dispatch("authentication/refreshJWT")
 
 		return {
 			navbar,

@@ -10,7 +10,7 @@
 				<div class="field mb-3">
 					<p class="control">
 						<input
-							:class="{ 'is-danger': error.username }"
+							:class="{ 'is-danger': error }"
 							required
 							v-model="username"
 							type="text"
@@ -18,14 +18,11 @@
 						/>
 						<label class="label">Username</label>
 					</p>
-					<p v-show="error.username" class="help is-danger">
-						{{ error.username }}
-					</p>
 				</div>
 				<div class="field mb-3">
 					<p class="control">
 						<input
-							:class="{ 'is-danger': error.password }"
+							:class="{ 'is-danger': error }"
 							required
 							v-model="password"
 							type="password"
@@ -33,10 +30,10 @@
 						/>
 						<label class="label">Password</label>
 					</p>
-					<p v-show="error.password" class="help is-danger">
-						{{ error.password }}
-					</p>
 				</div>
+				<p v-show="error" class="help mb-2 is-danger">
+					{{ error }}
+				</p>
 				<div class="field mb-3">
 					<label class="checkbox">
 						<input type="checkbox" v-model="remember" />
@@ -54,7 +51,7 @@
 				</div>
 				<p>
 					Not a member yet?
-					<a href="#" @click.prevent="updateIsLoggingIn(false)"
+					<a href="#" @click.prevent="updateIsOnPageLogin(false)"
 						>Create an account</a
 					>
 				</p>
@@ -69,7 +66,7 @@
 </template>
 
 <script>
-import { inject, reactive, ref } from "vue"
+import { computed, inject, ref } from "vue"
 import { useStore } from "@/store"
 import loginImage from "./login.png"
 export default {
@@ -78,23 +75,22 @@ export default {
 		const password = ref("")
 		const remember = ref(false)
 		const loginForm = ref(null)
-		const error = reactive({})
 
-		const userStore = useStore("User")
+		const store = useStore()
 
-		const login = async () => {
-			let responseError = await userStore.login({
+		const error = computed(() => store.state.authentication.errorSignIn)
+
+		const updateIsOnPageLogin = (status) => {
+			store.dispatch("authentication/updateIsOnPageLogin", status)
+		}
+
+		const login = () => {
+			store.dispatch("authentication/signIn", {
 				username: username.value,
 				password: password.value,
 				remember: remember.value,
 			})
-			if (!responseError) return
-			error[path] = responseError.message
 		}
-
-		const loginPageStore = useStore("LoginPage")
-
-		const updateIsLoggingIn = loginPageStore.updateIsLoggingIn
 
 		return {
 			username,
@@ -102,7 +98,7 @@ export default {
 			login,
 			remember,
 			loginImage,
-			updateIsLoggingIn,
+			updateIsOnPageLogin,
 			loginForm,
 			error,
 		}

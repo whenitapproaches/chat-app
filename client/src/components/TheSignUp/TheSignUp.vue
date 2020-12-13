@@ -63,7 +63,9 @@
 				</div>
 				<p>
 					Already have an account?
-					<a href="#" @click.prevent="updateIsLoggingIn(true)">Let me enter</a>
+					<a href="#" @click.prevent="updateIsOnPageLogin(true)"
+						>Let me enter</a
+					>
 				</p>
 			</form>
 		</div>
@@ -76,7 +78,7 @@
 </template>
 
 <script>
-import { reactive, ref, watchEffect } from "vue"
+import { computed, reactive, ref, watchEffect } from "vue"
 import { useStore } from "@/store"
 import signUpImage from "./signup.png"
 
@@ -87,30 +89,15 @@ import useSignUpValidateConfirmedPassword from "./composables/useSignUpValidateC
 export default {
 	name: "TheSignUp",
 	setup() {
-		const loginPageStore = useStore("LoginPage")
+		const store = useStore()
 
-		const updateIsLoggingIn = loginPageStore.updateIsLoggingIn
-
-		const userStore = useStore("User")
+		const updateIsOnPageLogin = (status) => {
+			store.dispatch("authentication/updateIsOnPageLogin", status)
+		}
 
 		const username = ref("")
 		const password = ref("")
 		const confirmedPassword = ref("")
-
-		const signUp = async () => {
-			// Check if there is any validation error
-			let hasAnyError = Object.values(error).filter((msg) => msg).length
-			if (hasAnyError) return
-			const responseData = await userStore.signUp({
-				username: username.value,
-				password: password.value,
-				confirmedPassword: confirmedPassword.value,
-			})
-			if (responseData.success) {
-				updateIsLoggingIn(true)
-			}
-		}
-
 		const error = reactive({})
 
 		useSignUpValidateUsername(username, error)
@@ -119,14 +106,22 @@ export default {
 
 		useSignUpValidateConfirmedPassword(confirmedPassword, password, error)
 
+		const signUp = () => {
+			store.dispatch("authentication/signUp", {
+				username: username.value,
+				password: password.value,
+				confirmedPassword: confirmedPassword.value,
+			})
+		}
+
 		return {
-			updateIsLoggingIn,
-			signUpImage,
-			signUp,
+			updateIsOnPageLogin,
 			username,
 			password,
 			confirmedPassword,
 			error,
+			signUpImage,
+			signUp,
 		}
 	},
 }

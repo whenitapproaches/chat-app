@@ -1,6 +1,12 @@
 const passport = require("passport")
 
-const { generateRefreshToken, generateJWT, JWTExpirationTimeInMs } = require("../utils")
+const {
+  generateRefreshToken,
+  generateJWT,
+  JWTExpirationTimeInMs,
+} = require("../utils")
+
+const moment = require("moment")
 
 module.exports = (req, res, next) => {
   passport.authenticate("local", async function (err, user, msg) {
@@ -12,22 +18,31 @@ module.exports = (req, res, next) => {
         id: user._id,
       })
 
-      let refreshTokenPayload = generateRefreshToken()
-      if(req.body.remember) refreshTokenPayload.expiredAt = new Date(253402300000000)
-      user.refreshToken.expiredAt = refreshTokenPayload.expiredAt
-      user.refreshToken.token = refreshTokenPayload.token
-      await user.save()
+      let refreshToken = user.refreshToken.token
+      let refreshTokenExpiredAt = user.refreshToken.expiredAt
 
-      res.cookie("refreshToken", refreshTokenPayload.token, {
+      if (!refreshToken || isRefreshTokenExpired(refreshTokenExpiredAt)) {
+        let refreshTokenPayload = generateRefreshToken()
+        if (req.body.remember)
+          refreshTokenPayload.expiredAt = new Date(253402300000000)
+        user.refreshToken.expiredAt = refreshTokenPayload.expiredAt
+        user.refreshToken.token = refreshTokenPayload.token
+        await user.save()
+        refreshToken = refreshTokenPayload.token
+        refreshTokenExpiredAt = refreshTokenPayload.expiredAt
+      }
+
+      res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
-        expires: refreshTokenPayload.expiredAt
+        expires: refreshTokenExpiredAt,
       })
 
       return res.status(200).json({
         success: true,
         username: user.username,
         token: jwt,
-        tokenExpiredIn: JWTExpirationTimeInMs()
+        tokenExpiredIn: JWTExpirationTimeInMs(),
+        _id: user._id,
       })
     }
 
@@ -36,4 +51,8 @@ module.exports = (req, res, next) => {
       ...msg,
     })
   })(req, res, next)
+}
+
+function isRefreshTokenExpired(refreshTokenExpiredAt) {
+  return moment(refreshTokenExpiredAt).isBefore(moment())
 }

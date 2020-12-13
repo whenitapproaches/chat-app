@@ -1,20 +1,37 @@
 const MessageModel = require("../models/message.model")
+const UserModel = require("../models/user.model")
+const ProfileModel = require("../models/profile.model")
+
+// MessageModel.create({
+//   senderId: "CQ4H1xa24Y5iIvyrpDTO1eNgduCxfK",
+//   receiverId: "HcG01KYBa57zcRs9X3bnI1LQ0BiYs8",
+//   content: "Hello"
+// })
 
 module.exports = async (req, res, next) => {
-  const { partnerId } = req.params
-  const { page } = req.query
+  const { partnerUsername } = req.params
+  const { offset } = req.query
 
-  if (!partnerId)
+  if (!partnerUsername)
     return res.status(400).json({
       success: false,
-      message: "Missing sender ID.",
+      message: "Missing sender username.",
     })
 
-  console.log(partnerId)
+  let partnerUser = await UserModel.findOne({
+    username: partnerUsername,
+  }).exec()
+
+  if(!partnerUser) return res.status(404).json({
+    success: false,
+    message: "Partner username not found."
+  })
+
+  let partnerId = partnerUser._id
 
   const { _id: userId } = req.user
 
-  let limitation = 5
+  let limitation = 10
 
   let messages = await MessageModel.find({
     $or: [
@@ -28,9 +45,26 @@ module.exports = async (req, res, next) => {
       },
     ],
   })
+    .sort({
+      createdAt: -1
+    })
     .limit(limitation)
-    .skip(page * limitation)
+    .skip(+offset)
+    .select("-__v")
     .exec()
 
-  return res.status(200).json(messages)
+  const partnerProfile = await ProfileModel.findOne({
+    userId: partnerId
+  }).select('-userId -friends -__v').exec()
+
+  await new Promise((res) => setTimeout(res, 200))
+
+  return res.status(200).json({
+    success: true,
+    messages,
+    partnerProfile,
+    partnerUser: {
+      _id: partnerId
+    }
+  })
 }

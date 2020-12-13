@@ -17,9 +17,36 @@
   justify-content: flex-end;
 }
 
+.chat-message.is-pending.owner .content {
+  animation-duration: 20s;
+  animation-timing-function: linear;
+  animation-name: messagePending;
+  animation-iteration-count: infinite;
+}
+
+@keyframes messagePending {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
 .chat-message.owner .content {
   background-color: var(--primary-color);
   background: var(--gradient-primary-color);
-  background-size: 150%;
+  background-size: 100%;
   color: var(--white-color);
+  transition: 0.3s ease;
+}
+
+.image {
+  width: 40%;
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.image img {
 }

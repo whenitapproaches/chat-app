@@ -1,7 +1,7 @@
 .separator {
   text-align: center;
   border-bottom: 1px solid var(--gray-color);
-  margin: 1.25rem 25%;
+  margin: 1.25rem 40%;
   color: var(--text-weak-color);
   padding-bottom: 0.5rem;
 }

@@ -1,0 +1,17 @@
+.emoji-table {
+  position: absolute;
+  bottom: 100%;
+  margin-bottom: 10px;
+  right: 0;
+  border-radius: 10px;
+  width: 400px;
+  height: 200px;
+  overflow-y: auto;
+  background: var(--gradient-gray-color);
+  padding: 20px 10px;
+}
+
+.column {
+  display: flex;
+  justify-content: center;
+}

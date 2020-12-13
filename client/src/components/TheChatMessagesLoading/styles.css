@@ -1,0 +1,26 @@
+.chat-messages-loader {
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+  opacity: 0;
+}
+
+.loading-icon {
+  animation-iteration-count: infinite;
+  animation-duration: 1.5s;
+  animation-name: spinning;
+  animation-timing-function: linear;
+}
+
+@keyframes spinning {
+  0% {
+    transform: rotateZ(0deg);
+  }
+  100% {
+    transform: rotateZ(360deg);
+  }
+}
+
+.is-active {
+  opacity: 1;
+}

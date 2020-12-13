@@ -1,9 +1,19 @@
 <template>
 	<div class="your-friends">
-		<ul class="friends columns">
-			<li class="column is-4" v-for="friend in friends" :key="friend.userId">
-				<div class="box">
-					{{ friend.userId }}
+		<h1 class="title is-5 mb-3">Your friends</h1>
+		<ul class="friends columns is-variable is-3">
+			<li class="column is-3" v-for="friend in transformedFriends" :key="friend.userId">
+				<div class="box friend">
+					<BaseAvatar />
+					{{
+						friend.partnerUsername
+					}}
+					<p class="subtitle">
+						<!-- {{ friend.user.profile.displayName }} -->
+					</p>
+					<button class="button" @click="message(friend.partnerUsername)">
+						Message
+					</button>
 				</div>
 			</li>
 		</ul>
@@ -12,17 +22,42 @@
 
 <script>
 import { useStore } from "@/store"
+import { useRouter } from "vue-router"
+import { computed } from "vue"
 export default {
 	setup() {
-		const profileStore = useStore("Profile")
-		const profile = profileStore.profile
+		const store = useStore()
 
-		profileStore.fetchFriends()
+		store.dispatch("account/fetchRelationships")
 
-		const { friends } = profile
+		const friends = computed(() => store.getters["account/friends"])
+
+		const currentUsername = computed(() => store.getters["user/username"])
+
+		const router = useRouter()
+
+		const message = (username) => {
+			router.push({
+				name: "Chat",
+				params: {
+					partnerUsername: username,
+				},
+			})
+		}
+
+		const transformedFriends = computed(() =>
+			friends.value.map((friend) => ({
+				partnerUsername:
+					friend.sender.username === currentUsername.value
+						? friend.receiver.username
+						: friend.sender.username,
+			}))
+		)
 
 		return {
-			friends,
+			transformedFriends,
+			message,
+			currentUsername,
 		}
 	},
 }

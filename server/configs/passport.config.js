@@ -17,8 +17,7 @@ passport.use(
           if (!user)
             return done(null, false, {
               error: {
-                path: "username",
-                message: "No user found",
+                message: "Please check again your username or password",
               },
             })
           // Matching password
@@ -26,8 +25,7 @@ passport.use(
           if (!isValidPassword)
             return done(null, false, {
               error: {
-                path: "password",
-                message: "Wrong password",
+                message: "Please check again your username or password",
               },
             })
           // All OK

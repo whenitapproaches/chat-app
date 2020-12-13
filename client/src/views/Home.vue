@@ -1,7 +1,7 @@
 <template>
 	<div class="home">
 		<base-trans appear mode="out-in" extraClass="animate__faster">
-			<TheAuthentication v-if="!isLoggedIn" />
+			<TheAuthentication v-if="!username" />
 			<TheHome v-else />
 		</base-trans>
 	</div>
@@ -11,7 +11,7 @@
 import TheAuthentication from "@/components/TheAuthentication/TheAuthentication.vue"
 import TheHome from "@/components/TheHome/TheHome.vue"
 import { useStore } from "@/store"
-import { components } from "vue"
+import { computed } from "vue"
 
 export default {
 	name: "Home",
@@ -20,12 +20,12 @@ export default {
 		TheHome,
 	},
 	setup(props, context) {
-		const userStore = useStore("User")
+		const store = useStore()
 
-		const isLoggedIn = userStore.isLoggedIn
+		const username = computed(() => store.getters["user/username"])
 
 		return {
-			isLoggedIn,
+			username,
 		}
 	},
 }

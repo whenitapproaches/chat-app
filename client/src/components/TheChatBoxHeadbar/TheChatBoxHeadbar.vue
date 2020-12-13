@@ -8,7 +8,9 @@
 							<BaseAvatar class="is-extra-large" />
 						</div>
 						<div class="column">
-							<div class="partner-username">whenitapproaches</div>
+							<div class="partner-username">
+								{{ currentPartnerUsername }}
+							</div>
 							<div class="partner-status">Online</div>
 						</div>
 					</div>
@@ -23,9 +25,19 @@
 
 <script>
 import TheChatBoxHeadbarToolbar from "@/components/TheChatBoxHeadbarToolbar/TheChatBoxHeadbarToolbar.vue"
+import { useStore } from "@/store"
+import { computed } from 'vue'
 export default {
 	components: {
 		TheChatBoxHeadbarToolbar,
+	},
+	setup() {
+		const store = useStore()
+		const currentPartnerUsername = computed(() => store.getters["chat/currentPartnerUsername"])
+
+		return {
+			currentPartnerUsername,
+		}
 	},
 }
 </script>

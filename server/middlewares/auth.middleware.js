@@ -1,29 +1,36 @@
-const UserModel = require('../models/user.model')
-const ProfileModel = require('../models/profile.model')
-const moment = require('moment')
+const UserModel = require("../models/user.model")
+const ProfileModel = require("../models/profile.model")
+const { verifyJWT } = require("../utils")
+
+function getTokenInHeader(req) {
+  let authorizationHeader = req.headers.authorization
+
+  if (!authorizationHeader) return null
+
+  let match = authorizationHeader.match(/Bearer (.*)/)
+  return match ? match[1] : null
+}
 
 module.exports = async (req, res, next) => {
-  const refreshToken = req.cookies.refreshToken
+  const token = getTokenInHeader(req)
 
-  if(!refreshToken) return res.status(401).json({
-    message: "Missing refresh token."
-  })
+  if (!token)
+    return res.status(401).json({
+      message: "Missing token.",
+    })
 
-  let user = await UserModel.findOne({
-    'refreshToken.token': refreshToken
-  })
+  let userPayload
+  try {
 
-  if(!user) return res.status(401).json({
-    message: "Invalid refresh token."
-  })
+    userPayload = verifyJWT(token)
+  }
+  catch(err) {
+    return res.status(401).json({
+      message: "Token has expired."
+    })
+  }
 
-  const now = moment()
-
-  const refreshTokenExpiredAt = moment(user.refreshToken.expiredAt)
-
-  if(now.isAfter(refreshTokenExpiredAt)) return res.status(401).json({
-    message: "Refresh token has expired."
-  })
+  let user = await UserModel.findById(userPayload.id)
 
   req.user = user
 

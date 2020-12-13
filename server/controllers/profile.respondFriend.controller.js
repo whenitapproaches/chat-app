@@ -31,8 +31,6 @@ module.exports = async (req, res, next) => {
     (friend) => friend.userId === userId
   )
 
-  console.log(contact)
-
   if (!contact)
     return res.status(422).json({
       message: "This partner has not yet added as friend.",

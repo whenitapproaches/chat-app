@@ -1,0 +1,54 @@
+.results {
+  max-height: 300px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.input {
+  margin-bottom: 1rem;
+}
+
+li.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+  padding: 1rem;
+  border: 1px solid var(--gray-color);
+  border-radius: 0.5rem;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+}
+
+.button {
+  width: 6rem;
+}
+
+.friend-request .button {
+  width: 4rem;
+}
+
+.loading {
+  height: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.loading-icon {
+  animation-iteration-count: infinite;
+  animation-duration: 1.5s;
+  animation-name: spinning;
+  animation-timing-function: linear;
+}
+
+@keyframes spinning {
+  0% {
+    transform: rotateZ(0deg);
+  }
+  100% {
+    transform: rotateZ(360deg);
+  }
+}

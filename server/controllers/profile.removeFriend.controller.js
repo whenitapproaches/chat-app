@@ -6,6 +6,12 @@ module.exports = async (req, res, next) => {
 
   const { partnerId: partnerUserId } = req.params
 
+  if (partnerUserId === userId)
+    return res.status(422).json({
+      message: "You cannot remove yourself as a friend.",
+      success: false,
+    })
+
   profile = req.profile
 
   let partnerProfile = await ProfileModel.findOne({

@@ -1,6 +1,6 @@
 <template>
 	<div class="chat main">
-		<div v-if="isLoggedIn" class="columns is-gapless is-fullheight">
+		<div v-if="username" class="columns is-gapless is-fullheight">
 			<div class="column is-3">
 				<div class="field mb-3">
 					<p class="control">
@@ -52,20 +52,20 @@
 <script>
 import TheUnauthorisedAlert from "@/components/TheUnauthorisedAlert/TheUnauthorisedAlert.vue"
 import { useStore } from "@/store"
-import { reactive } from "vue"
+import { computed, reactive } from "vue"
 export default {
 	components: {
 		TheUnauthorisedAlert,
 	},
 	setup() {
-		const userStore = useStore("User")
+		const store = useStore()
 
-		const isLoggedIn = userStore.isLoggedIn
+		const username = computed(() => store.getters["user/username"])
 
 		const error = reactive({})
 
 		return {
-			isLoggedIn,
+			username,
 			error,
 		}
 	},

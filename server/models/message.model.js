@@ -2,25 +2,28 @@ const mongoose = require("mongoose")
 
 const Schema = mongoose.Schema
 
+const moment = require("moment")
+
 const MessageSchema = new Schema({
   senderId: {
     type: String,
-    required: true
+    required: true,
   },
   content: {
     type: String,
   },
   media: {
     type: String,
+    ref: "Image"
   },
   receiverId: {
     type: String,
-    required: true
+    required: true,
   },
   createdAt: {
     type: Date,
-    default: Date.now()
-  }
+    default: Date.now,
+  },
 })
 
 const Message = mongoose.model("Message", MessageSchema)
