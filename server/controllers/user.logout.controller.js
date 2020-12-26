@@ -7,6 +7,10 @@ module.exports = async (req, res, next) => {
 
   await user.save()
 
+  res.cookie("refreshToken", "", {
+    maxAge: 0
+  })
+
   return res.status(200).json({
     success: true,
     message: "Logged out."

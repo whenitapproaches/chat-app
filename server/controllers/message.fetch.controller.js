@@ -1,36 +1,52 @@
 const MessageModel = require("../models/message.model")
+const UserModel = require("../models/user.model")
 
 module.exports = async (req, res, next) => {
-  const { partnerId } = req.params
-  const { page } = req.query
+  const { partnerUsername } = req.params
+  const { offset } = req.query
 
-  if (!partnerId)
+  if (!partnerUsername)
     return res.status(400).json({
       success: false,
-      message: "Missing sender ID.",
+      message: "Missing sender username.",
     })
 
-  console.log(partnerId)
+  let partnerUser = await UserModel.findOne({
+    username: partnerUsername,
+  }).exec()
 
-  const { _id: userId } = req.user
+  if (!partnerUser)
+    return res.status(404).json({
+      success: false,
+      message: "Partner username not found.",
+    })
 
-  let limitation = 5
+  let limitation = 20
 
   let messages = await MessageModel.find({
     $or: [
       {
-        senderId: userId,
-        receiverId: partnerId,
+        sender: req.user.username,
+        receiver: partnerUsername,
       },
       {
-        senderId: partnerId,
-        receiverId: userId,
+        sender: partnerUsername,
+        receiver: req.user.username,
       },
     ],
   })
+    .sort({
+      createdAt: -1,
+    })
     .limit(limitation)
-    .skip(page * limitation)
+    .skip(+offset)
+    .select("-__v")
     .exec()
 
-  return res.status(200).json(messages)
+  // await new Promise((res) => setTimeout(res, 200))
+
+  return res.status(200).json({
+    success: true,
+    messages,
+  })
 }

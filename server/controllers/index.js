@@ -3,12 +3,15 @@ const userSignupController = require("./user.signup.controller")
 const userRefreshJWTController = require("./user.refreshJWT.controller")
 const userLogoutController = require("./user.logout.controller")
 const userCheckUsernameAvailabilityController = require("./user.checkUsernameAvailability.controller")
+const userSearchController = require("./user.search.controller")
 const messageFetchController = require("./message.fetch.controller")
-const profileFriendsController = require("./profile.friends.controller")
-const profileAddFriendController = require("./profile.addFriend.controller")
-const profileRespondFriendController = require("./profile.respondFriend.controller")
-const profileRemoveFriendController = require("./profile.removeFriend.controller")
-const profileUpdateAvatarController = require("./profile.updateAvatar.controller")
+const messageFetchRecentController = require("./message.fetchRecent.controller")
+const imageUploadController = require("./image.upload.controller")
+const imageReadController = require("./image.read.controller")
+const userFriendsController = require("./user.friends.controller")
+const userAddFriendController = require("./user.addFriend.controller")
+const userRemoveFriendController = require("./user.removeFriend.controller")
+const userRespondFriendController = require("./user.respondFriend.controller")
 
 module.exports = {
   userLoginController,
@@ -16,10 +19,13 @@ module.exports = {
   userRefreshJWTController,
   userLogoutController,
   userCheckUsernameAvailabilityController,
+  userSearchController,
+  userFriendsController,
+  userAddFriendController,
+  userRemoveFriendController,
+  userRespondFriendController,
   messageFetchController,
-  profileFriendsController,
-  profileAddFriendController,
-  profileRespondFriendController,
-  profileRemoveFriendController,
-  profileUpdateAvatarController
+  messageFetchRecentController,
+  imageUploadController,
+  imageReadController,
 }

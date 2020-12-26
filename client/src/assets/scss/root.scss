@@ -13,12 +13,24 @@
   --green-color: #85cb33;
   --gradient-primary-color: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 1) 0%,
     rgba(98, 60, 234, 1) 0%,
     rgba(242, 67, 51, 1) 100%
   );
+  --gradient-loading-bubble-color: linear-gradient(
+    90deg,
+    rgba(242, 67, 51, 1) 0%,
+    rgba(98, 60, 234, 1) 50%,
+    rgba(242, 67, 51, 1) 100%
+  );
   --gradient-primary-hover-color: rgba(255, 255, 255, 0.2);
-  --gradient-gray-color: linear-gradient(135deg, rgba(215,217,215,1) 0%, rgba(245,244,246,1) 100%);
+  --gradient-gray-color: linear-gradient(
+    135deg,
+    rgba(245, 245, 255, 1) 0%,
+    rgba(245, 240, 255, 1) 25%,
+    rgba(255, 245, 255, 1) 50%,
+    rgba(255, 245, 240, 1) 75%,
+    rgba(255, 245, 245, 1) 100%
+  );
 }
 
 /* width */

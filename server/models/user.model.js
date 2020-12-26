@@ -19,6 +19,17 @@ const UserSchema = new Schema({
       type: Date,
     },
   },
+}, {
+  toJSON: {
+    virtuals: true
+  }
+})
+
+UserSchema.virtual('profile', {
+  ref: 'Profile',
+  localField: '_id',
+  foreignField: 'userId',
+  justOne: true,
 })
 
 const bcrypt = require("bcrypt")

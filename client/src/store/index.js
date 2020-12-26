@@ -1,23 +1,24 @@
-import modules from "./modules"
+import { createStore } from "vuex"
 
-import { inject } from "vue"
+import chatModule from "./modules/chat.store"
+import authenticationModule from "./modules/authentication.store"
+import userModule from "./modules/user.store"
+import accountModule from "./modules/account.store"
+import clockModule from "./modules/clock.store"
+import imageModalModule from "./modules/imageModal.store"
 
-export default {
-  install(app) {
-    modules.forEach((module) => {
-      app.provide(module.name, module.store)
-    })
+// Create a new store instance.
+const store = createStore({
+  modules: {
+    chat: chatModule,
+    authentication: authenticationModule,
+    user: userModule,
+    account: accountModule,
+    clock: clockModule,
+    imageModal: imageModalModule,
   },
-}
-
-const store = {}
-
-modules.forEach((module) => {
-  store[`${module.name}`] = function() {
-    return inject(module.name)
-  }
 })
 
-export const useStore = (name) => {
-  return store[name]()
-}
+export default store
+
+export const useStore = () => store

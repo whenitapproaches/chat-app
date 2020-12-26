@@ -1,11 +1,18 @@
 <template>
 	<div class="user-info">
 		<BaseAvatar />
-		<a href="#" class="user-dropdown-toggler ml-2" @click.prevent="toggleDropdown">
-			<p>{{currentUserUsername}}</p>
+		<a
+			href="#"
+			class="user-dropdown-toggler ml-2"
+			@click.prevent="toggleDropdown"
+		>
+			<p>{{ username }}</p>
 			<BaseIcon class="is-small ml-2" icon="las la-angle-down" />
 		</a>
-		<ul class="user-dropdown dropdown box" :class="{'is-active': isDropdownActive}">
+		<ul
+			class="user-dropdown dropdown box"
+			:class="{ 'is-active': isDropdownActive }"
+		>
 			<li>
 				<a href="#">Change profile picture</a>
 			</li>
@@ -17,8 +24,9 @@
 </template>
 
 <script>
-import { ref, computed, toRefs } from "vue"
+import { computed, ref } from "vue"
 import { useStore } from "@/store"
+import socketService from "@/services/socket.service"
 export default {
 	components: {},
 	setup() {
@@ -28,17 +36,19 @@ export default {
 			isDropdownActive.value = !isDropdownActive.value
 		}
 
-		const userStore = useStore('User')
+		const store = useStore()
 
-		const { username: currentUserUsername} = userStore.currentUser
+		const username = computed(() => store.getters["user/username"])
 
-		const logOut = userStore.logOut
+		const logOut = () => {
+			store.dispatch("authentication/signOut")
+		}
 
 		return {
 			isDropdownActive,
 			toggleDropdown,
-			currentUserUsername,
-			logOut
+			username,
+			logOut,
 		}
 	},
 }

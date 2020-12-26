@@ -16,7 +16,17 @@
 </template>
 
 <script>
-export default {}
+export default {
+	props: {
+		sender: {
+			type: String,
+			required: true
+		},
+		message: {
+			
+		}
+	}
+}
 </script>
 
 <style scoped src="./styles.css">

@@ -1,5 +1,4 @@
 const UserModel = require("../models/user.model")
-const ProfileModel = require("../models/profile.model")
 
 module.exports = async (req, res, next) => {
   const username = req.body.username
@@ -17,13 +16,14 @@ module.exports = async (req, res, next) => {
         message: "This username has already been taken.",
       })
 
+    if(confirmedPassword !== password) return res.status(422).json({
+      success: false,
+      message: "Confirmed password must match with your password."
+    })
+
     let user = await UserModel.create({
       username,
       password,
-    })
-
-    await ProfileModel.create({
-      userId: user._id,
     })
 
     return res.status(200).json({

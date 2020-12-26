@@ -36,6 +36,7 @@
 .chat-last-message {
   color: var(--text-weak-color);
   overflow: hidden;
+  height: 1.5rem;
 }
 
 .online {

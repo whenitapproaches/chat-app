@@ -1,6 +1,6 @@
 <template>
 	<base-trans mode="out-in" extraClass="animate__faster">
-		<TheLogin v-if="isLoggingIn" />
+		<TheLogin v-if="isOnPageLogin" />
 		<TheSignUp v-else />
 	</base-trans>
 </template>
@@ -9,18 +9,20 @@
 import TheLogin from "@/components/TheLogin/TheLogin.vue"
 import TheSignUp from "@/components/TheSignUp/TheSignUp.vue"
 import { useStore } from "@/store"
+import { computed } from "vue"
 export default {
 	components: {
 		TheLogin,
 		TheSignUp,
 	},
 	setup() {
-		const loginPageStore = useStore("LoginPage")
-
-		const isLoggingIn = loginPageStore.isLoggingIn
+		const store = useStore()
+		const isOnPageLogin = computed(
+			() => store.state.authentication.isOnPageLogin
+		)
 
 		return {
-			isLoggingIn,
+			isOnPageLogin,
 		}
 	},
 }

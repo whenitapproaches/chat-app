@@ -2,7 +2,7 @@
 	<div class="chat-box" ref="root">
 		<TheChatBoxHeadbar ref="headbar" />
 		<div class="chat-box-content">
-			<TheChatMessages :style="{'height': `${messagesHeight}px`}" />
+			<TheChatMessages :style="{ height: `${messagesHeight}px` }" />
 			<TheChatInput ref="input" />
 		</div>
 	</div>
@@ -12,8 +12,11 @@
 import TheChatBoxHeadbar from "@/components/TheChatBoxHeadbar/TheChatBoxHeadbar.vue"
 import TheChatMessages from "@/components/TheChatMessages/TheChatMessages.vue"
 import TheChatInput from "@/components/TheChatInput/TheChatInput.vue"
-import { onMounted, ref } from "vue"
-import chatMessagesHeightCalculator from "./chat-messages-height-calculator"
+import { onMounted, onUpdated, ref, watch } from "vue"
+import chatMessagesHeightCalculator from "./chatMessagesHeightCalculator"
+import { useRouter } from "vue-router"
+import { useStore } from "@/store"
+
 export default {
 	components: {
 		TheChatBoxHeadbar,
@@ -26,13 +29,15 @@ export default {
 		const input = ref(null)
 		const messagesHeight = ref(0)
 
-		onMounted(() => {
+		function updateChatMessagesHeight() {
 			messagesHeight.value = chatMessagesHeightCalculator(root, headbar, input)
-		})
-		
-		window.addEventListener('resize', () => {
-			messagesHeight.value = chatMessagesHeightCalculator(root, headbar, input)
-		})
+		}
+
+		window.addEventListener("resize", updateChatMessagesHeight)
+
+		onMounted(updateChatMessagesHeight)
+
+		onUpdated(updateChatMessagesHeight)
 
 		return {
 			headbar,

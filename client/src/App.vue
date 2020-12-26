@@ -11,6 +11,7 @@
 				<router-view />
 			</div>
 		</div>
+		<TheImageModal />
 	</div>
 </template>
 
@@ -18,7 +19,8 @@
 import TheSidebar from "@/components/TheSidebar/TheSidebar.vue"
 import TheNavigationBar from "@/components/TheNavigationBar/TheNavigationBar.vue"
 import mainHeightCalculator from "./mainHeightCalculator"
-import { onMounted, provide, reactive, ref, readonly, watchEffect } from "vue"
+import TheImageModal from "@/components/TheImageModal/TheImageModal"
+import { onMounted, ref } from "vue"
 
 import { useStore } from "@/store"
 
@@ -30,6 +32,7 @@ export default {
 	components: {
 		TheSidebar,
 		TheNavigationBar,
+		TheImageModal,
 	},
 	setup() {
 		const navbar = ref(null)
@@ -38,6 +41,10 @@ export default {
 		onMounted(() => {
 			mainHeight.value = mainHeightCalculator(navbar)
 		})
+
+		const store = useStore()
+
+		store.dispatch("authentication/refreshJWT")
 
 		const router = useRouter()
 
@@ -48,19 +55,22 @@ export default {
 			function (error) {
 				let responseStatus = error.response.status
 
-				if (responseStatus === 401) {
-					router.push({
-						name: "Home",
-					})
+				switch (responseStatus) {
+					case 401:
+						router.push({
+							name: "Home",
+						})
+						break
+					case 404:
+						router.push({
+							name: "NotFound",
+						})
+						break
 				}
 
 				return Promise.reject(error)
 			}
 		)
-
-		const userStore = useStore("User")
-
-		userStore.refreshJWT()
 
 		return {
 			navbar,

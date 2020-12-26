@@ -1,9 +1,7 @@
 import { watchEffect } from "vue"
-import { useStore } from "@/store"
+import { AuthService } from "@/services/api.service"
 
 export default (username, error) => {
-  const userStore = useStore("User")
-
   function validateUsernameLength(username) {
     if (username.length < 10) {
       error.username = "Username length must be more than 10 characters"
@@ -12,9 +10,10 @@ export default (username, error) => {
   }
 
   let checkUsernameAvailabilityTokenSource
+  const { checkUsernameAvailability } = AuthService
 
   async function validateUsernameAvailability(username) {
-    const { request, source } = userStore.checkUsernameAvailability(username)
+    const { request, source } = checkUsernameAvailability(username)
     checkUsernameAvailabilityTokenSource = source
     const response = await request()
     const isAvailable = response.data

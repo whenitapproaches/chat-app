@@ -1,12 +1,24 @@
 .toolbar {
   display: flex;
 }
-.chat-input a.tool {
+.chat-input .tool {
   color: var(--text-weak-color);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  display: flex;
 }
 
-.chat-input a.tool:hover {
+.chat-input label.tool:hover {
   color: var(--primary-color);
+}
+
+.toolbar input {
+  display: none;
+}
+
+.emoji.toolbar {
+  position: relative;
 }
 
 .send-button {
