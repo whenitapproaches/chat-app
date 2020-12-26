@@ -16,6 +16,7 @@ export default function useChatMessageListener() {
   SocketService.getSocket().on("sent-message", (message) => {
     updateMessage(message)
   })
+  SocketService.getSocket().off("received-message")
   SocketService.getSocket().on("received-message", ({ ...message }) => {
     receiveNewMessage({
       ...message,

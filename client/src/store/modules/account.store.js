@@ -47,6 +47,15 @@ export default {
         return commit("removeRelationship", receiver)
       } catch (err) {}
     },
+    removeRelationship: ({ commit }, receiver) => {
+      commit("removeRelationship", receiver)
+    },
+    createRelationship: ({ commit }, receiver) => {
+      commit("createRelationship", receiver)
+    },
+    updateRelationship: ({ commit }, { partner, status }) => {
+      return commit("updateRelationship", { receiver: partner, status })
+    },
   },
   mutations: {
     updateRelationships: (state, relationships) => {
@@ -58,6 +67,15 @@ export default {
         {
           status: "pending",
           receiver,
+        },
+      ]
+    },
+    createRelationship: (state, partner) => {
+      state.relationships = [
+        ...state.relationships,
+        {
+          status: "pending",
+          sender: partner,
         },
       ]
     },

@@ -50,9 +50,9 @@ export default {
 		const transformedFriends = computed(() =>
 			friends.value.map((friend) => ({
 				partnerUsername:
-					friend.sender === currentUsername.value
-						? friend.receiver
-						: friend.sender,
+					friend.sender !== currentUsername.value
+						? friend.sender
+						: friend.receiver,
 			}))
 		)
 

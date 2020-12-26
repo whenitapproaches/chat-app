@@ -93,6 +93,8 @@ import BaseAvatar from "../BaseAvatar/BaseAvatar.vue"
 import { computed } from "vue"
 import { useStore } from "@/store"
 
+import userRelationshipsListener from "./composables/userRelationshipsListener"
+
 export default {
 	components: { BaseAvatar },
 	setup(props) {
@@ -111,7 +113,8 @@ export default {
 				.filter(
 					(relationship) =>
 						relationship.status === "pending" &&
-						relationship.sender !== currentUserUsername.value
+						relationship.sender !== currentUserUsername.value &&
+						relationship.sender !== undefined
 				)
 				.map((relationship) => {
 					return {
@@ -119,6 +122,8 @@ export default {
 					}
 				})
 		})
+
+		userRelationshipsListener()
 
 		return {
 			username,

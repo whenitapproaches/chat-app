@@ -4,6 +4,8 @@ const { authSocketMiddleware } = require("../../middlewares")
 
 const chatBetweenTwoUsers = require("./chat/chatBetweenTwoUsers")
 
+const relationshipsInit = require('./relationships')
+
 const {
   removeUserSocketIds,
   updateUserSocketIds,
@@ -57,4 +59,6 @@ module.exports = (server) => {
       })
     })
   })
+
+  relationshipsInit(io)
 }

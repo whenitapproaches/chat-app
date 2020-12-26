@@ -1,4 +1,5 @@
 const RelationshipModel = require("../models/relationship.model")
+const relationshipEvent = require("../helpers/relationship.event")
 
 module.exports = async (req, res, next) => {
   const { receiver } = req.params
@@ -29,6 +30,11 @@ module.exports = async (req, res, next) => {
     })
 
   await relationship.deleteOne()
+
+  relationshipEvent.emit("removed-friend", {
+    sender: req.user.username,
+    receiver,
+  })
 
   return res.status(200).send(true)
 }

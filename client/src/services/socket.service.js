@@ -8,7 +8,7 @@ const host = DEVELOPMENT ? `${configs.HOST}` : ""
 
 let socket
 
-export default {
+const socketService = {
   init() {
     socket = io(host)
   },
@@ -35,3 +35,5 @@ export default {
     socket.disconnect()
   },
 }
+
+export default socketService

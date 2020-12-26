@@ -1,5 +1,5 @@
-const { raw } = require("express")
 const RelationshipModel = require("../models/relationship.model")
+const relationshipEvent = require("../helpers/relationship.event")
 
 module.exports = async (req, res, next) => {
   const { accept } = req.body
@@ -40,9 +40,19 @@ module.exports = async (req, res, next) => {
       status: "friend",
       updated_at: Date.now(),
     })
+    relationshipEvent.emit("accepted-friend-request", {
+      sender: req.user.username,
+      receiver,
+    })
+
     return res.status(200).send(true)
   }
   await relationship.deleteOne()
+
+  relationshipEvent.emit("canceled-friend-request", {
+    sender: req.user.username,
+    receiver,
+  })
 
   return res.status(200).send(true)
 }

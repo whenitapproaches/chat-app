@@ -11,7 +11,6 @@ export default () => {
     store.dispatch("account/addFriend", receiver)
   }
   const respondFriend = ({ receiver, status }) => {
-    console.log(receiver)
     store.dispatch("account/respondFriend", { receiver, status })
   }
 

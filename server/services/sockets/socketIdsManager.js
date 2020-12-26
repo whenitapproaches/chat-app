@@ -1,5 +1,5 @@
-const userSocketIds = {}
 const { findIndex, pullAt, findKey } = require("lodash")
+const userSocketIds = {}
 
 const updateUserSocketIds = (user, socketId) => {
   if (!userSocketIds[user]) return (userSocketIds[user] = [socketId])

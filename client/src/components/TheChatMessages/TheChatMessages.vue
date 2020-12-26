@@ -19,9 +19,9 @@ import TheChatMessage from "@/components/TheChatMessage/TheChatMessage.vue"
 // import TheChatMessageSeparator from "@/components/TheChatMessageSeparator/TheChatMessageSeparator.vue"
 import TheChatMessagesLoading from "@/components/TheChatMessagesLoading/TheChatMessagesLoading.vue"
 import { useStore } from "@/store"
-import useChatMessagesListener from "./useChatMessagesListener"
 import useChatMessageInfiniteLoader from "./useChatMessageInfiniteLoader"
 import { onMounted, ref, computed } from "vue"
+import useChatMessagesListener from './useChatMessagesListener';
 export default {
 	components: {
 		TheChatMessage,
@@ -32,8 +32,6 @@ export default {
 		const store = useStore()
 
 		const conversations = computed(() => store.state.chat.conversations)
-
-		useChatMessagesListener()
 
 		const root = ref(null)
 		const loadingElement = ref(null)
@@ -51,6 +49,8 @@ export default {
 		)
 
 		const currentUserUsername = computed(() => store.getters["user/username"])
+
+		useChatMessagesListener()
 
 		return {
 			root,
